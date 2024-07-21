@@ -21,6 +21,8 @@ public class GameManager {
         actor = player1;
         curPhase = TurnPhase.StartTurn;
 
+        // yes, we'll eventually want this in the editor but for now I'm going
+        // to just stub it out here to get things moving along.
         Card[] initialDeck = new Card[]{
             Card.Melee1,
             Card.Melee1,

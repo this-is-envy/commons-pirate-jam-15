@@ -64,7 +64,13 @@ static class EnumExtensions {
 
     public static CardBase AsCardBase(this Card self, CardController parent) {
         Debug.Log("convert " + self + " to card base");
-        // TODO: I initially was going to treat this as pure data 
+        // TODO: I initially was going to treat this as pure data and new CardBase
+        // but because new fails I need to construct them via AddComponent. If it's
+        // A component it needs to exist hanging off some GameObject. Presumably
+        // this will be something that manages hand rendering or something idk.
+        // for now I'm just attaching them to the card controller but generally
+        // this probably won't be the correct path forward. Hold off on
+        // structure input from Snechar.
         var cb = parent.AddComponent<CardBase>();
         var so = CardSO.GetCard(self);
         Debug.Log("got so: " + so);

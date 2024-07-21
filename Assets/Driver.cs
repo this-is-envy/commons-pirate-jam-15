@@ -23,8 +23,5 @@ public class Driver : MonoBehaviour {
         debugUI = debugScene.GetComponent<DebugUI>();
         debugUI.gameManager = gameManager;
         Debug.Log("debugUI: " + debugUI);
-
-        // var fireball = CardSO.GetCard("Fireball");
-        // Debug.Log(fireball);
     }
 }
