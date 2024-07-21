@@ -38,7 +38,8 @@ public class GameManager {
             // TODO: converting to a cardbase here doesn't work in an obvious
             // way bc it's a monobehavior and I'm not sure where we should be
             // attaching it.
-            cardController.DiscardPile.Add(c.AsCardBase(cardController));
+
+            cardController.AddCardToHand(CardSO.GetCard(c),cardController);
         }
     }
 

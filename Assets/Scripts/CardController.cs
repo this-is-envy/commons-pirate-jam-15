@@ -11,6 +11,7 @@ public class CardController : MonoBehaviour {
     public List<CardBase> Hand;
     public List<CardBase> DiscardPile;
     private System.Random rnd;
+    public GameObject cardPrefab;
 
     public void Awake() {
         rnd = new System.Random();
@@ -57,6 +58,14 @@ public class CardController : MonoBehaviour {
         Hand.Clear();
     }
 
+    public void AddCardToHand(CardSO cb, CardController parent) {
+        var card = Instantiate(cardPrefab, parent.transform);
+        card.transform.parent = parent.transform;
+        card.AddComponent<CardBase>();
+        card.GetComponent<CardBase>().cardSO = cb;
+        Hand.Add(card.GetComponent<CardBase>());
+
+    }
 }
 
 

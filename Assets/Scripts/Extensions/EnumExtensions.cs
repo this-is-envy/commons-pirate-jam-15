@@ -71,6 +71,11 @@ static class EnumExtensions {
         // for now I'm just attaching them to the card controller but generally
         // this probably won't be the correct path forward. Hold off on
         // structure input from Snechar.
+
+
+        //there is no need to attach the script to the parent, this needs to be attached to the card object, and should be created using and Instantiate method
+        //which requires MonoBehavior, so we do it in CardController instead
+
         var cb = parent.AddComponent<CardBase>();
         var so = CardSO.GetCard(self);
         Debug.Log("got so: " + so);
