@@ -1,16 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 
+using UnityEditor;
+using UnityEditor.Build.Content;
+
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class Driver : MonoBehaviour {
-    // Start is called before the first frame update
-    void Start() {
+    private GameManager gameManager;
+    private CardController cardController;
 
-    }
+    private Scene debugScene;
+    private DebugUI debugUI;
 
-    // Update is called once per frame
-    void Update() {
+    public void Awake() {
+        cardController = GetComponent<CardController>();
+        gameManager = new GameManager(cardController);
 
+        debugScene = SceneManager.GetSceneByName("DebugUI");
+        debugUI = debugScene.GetComponent<DebugUI>();
+        debugUI.gameManager = gameManager;
+        Debug.Log("debugUI: " + debugUI);
+
+        // var fireball = CardSO.GetCard("Fireball");
+        // Debug.Log(fireball);
     }
 }
