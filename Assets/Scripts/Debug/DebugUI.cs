@@ -10,7 +10,7 @@ public class DebugUI : MonoBehaviour {
     [SerializeField] public TMP_Text playerTMP;
     [SerializeField] public TMP_Text phaseTMP;
 
-    public void Awake() {
+    public void Start() {
         // TODO: We need to rehome this out of the DebugUI
         gameManager = new GameManager(FindObjectOfType<CardController>());
     }
