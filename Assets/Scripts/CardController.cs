@@ -32,7 +32,8 @@ public class CardController : MonoBehaviour {
         for (int i = 0; i < noCards; i++) {
             if (DrawDeck.Count == 0) {
                 if (DiscardPile.Count == 0) {
-                    break;
+                    // TODO: how do we want to handle this?
+                    return;
                 }
                 Shuffle();
             }
@@ -42,6 +43,7 @@ public class CardController : MonoBehaviour {
             Debug.Log("drew: " + card);
 
             if (Hand.Count >= maxCards) {
+                card.gameObject.SetActive(false);
                 DiscardPile.Add(card);
             } else {
                 card.gameObject.SetActive(true);
@@ -53,6 +55,7 @@ public class CardController : MonoBehaviour {
     public void UseCard(CardBase card) {
         card.PlayCard();
         Hand.Remove(card);
+        card.gameObject.SetActive(false);
         DiscardPile.Add(card);
     }
 

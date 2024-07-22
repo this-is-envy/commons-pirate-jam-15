@@ -17,6 +17,7 @@ public class GameManager {
     }
 
     public void StartGame(TurnActor player1) {
+
         gameStarted = true;
         actor = player1;
         curPhase = TurnPhase.StartTurn;
