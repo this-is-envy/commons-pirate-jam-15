@@ -1,10 +1,5 @@
 ﻿using System;
 
-using Unity.Collections.LowLevel.Unsafe;
-using Unity.VisualScripting;
-
-using UnityEngine;
-
 static class EnumExtensions {
 
     public static TurnPhase Next(this TurnPhase self) {
@@ -60,28 +55,5 @@ static class EnumExtensions {
             default:
                 throw new ArgumentOutOfRangeException("Unknown card type requested: " + card);
         }
-    }
-
-    public static CardBase AsCardBase(this Card self, CardController parent) {
-        Debug.Log("convert " + self + " to card base");
-        // TODO: I initially was going to treat this as pure data and new CardBase
-        // but because new fails I need to construct them via AddComponent. If it's
-        // A component it needs to exist hanging off some GameObject. Presumably
-        // this will be something that manages hand rendering or something idk.
-        // for now I'm just attaching them to the card controller but generally
-        // this probably won't be the correct path forward. Hold off on
-        // structure input from Snechar.
-
-
-        //there is no need to attach the script to the parent, this needs to be attached to the card object, and should be created using and Instantiate method
-        //which requires MonoBehavior, so we do it in CardController instead
-
-        var cb = parent.AddComponent<CardBase>();
-        var so = CardSO.GetCard(self);
-        Debug.Log("got so: " + so);
-        cb.cardSO = so;
-        Debug.Log("constructed " + cb);
-
-        return cb;
     }
 }

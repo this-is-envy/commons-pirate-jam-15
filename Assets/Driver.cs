@@ -20,7 +20,7 @@ public class Driver : MonoBehaviour {
         gameManager = new GameManager(cardController);
 
         debugScene = SceneManager.GetSceneByName("DebugUI");
-        debugUI = debugScene.GetComponent<DebugUI>();
+        debugUI = debugScene.GetRootComponent<DebugUI>();
         debugUI.gameManager = gameManager;
         Debug.Log("debugUI: " + debugUI);
     }

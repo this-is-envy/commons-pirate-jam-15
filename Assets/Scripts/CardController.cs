@@ -5,12 +5,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CardController : MonoBehaviour {
+    private System.Random rnd;
     public int maxCards = 5;
 
     public List<CardBase> DrawDeck;
     public List<CardBase> Hand;
     public List<CardBase> DiscardPile;
-    private System.Random rnd;
     public GameObject cardPrefab;
 
     public void Awake() {
@@ -31,8 +31,12 @@ public class CardController : MonoBehaviour {
     public void DrawCards(int noCards) {
         for (int i = 0; i < noCards; i++) {
             if (DrawDeck.Count == 0) {
+                if (DiscardPile.Count == 0) {
+                    break;
+                }
                 Shuffle();
             }
+
             CardBase card = DrawDeck[0];
             DrawDeck.RemoveAt(0);
             Debug.Log("drew: " + card);
@@ -40,6 +44,7 @@ public class CardController : MonoBehaviour {
             if (Hand.Count >= maxCards) {
                 DiscardPile.Add(card);
             } else {
+                card.gameObject.SetActive(true);
                 Hand.Add(card);
             }
         }
@@ -54,17 +59,24 @@ public class CardController : MonoBehaviour {
     public void DiscardAll() {
         foreach (var c in Hand) {
             DiscardPile.Add(c);
+            c.gameObject.SetActive(false);
         }
         Hand.Clear();
     }
 
-    public void AddCardToHand(CardSO cb, CardController parent) {
-        var card = Instantiate(cardPrefab, parent.transform);
-        card.transform.parent = parent.transform;
-        card.AddComponent<CardBase>();
-        card.GetComponent<CardBase>().cardSO = cb;
-        Hand.Add(card.GetComponent<CardBase>());
-
+    public CardBase HydrateCard(CardSO so) {
+        var card = Instantiate(cardPrefab, transform);
+        // cards start off deactivated until they need to be displayed
+        card.SetActive(false);
+        card.transform.parent = transform;
+        var cardBase = card.AddComponent<CardBase>();
+        cardBase.cardSO = so;
+        var cardUI = card.GetComponent<CardUI>();
+        cardUI.titleTMP.text = so.name;
+        cardUI.descriptionTMP.text = so.description;
+        cardUI.costTMP.text = $"{so.cost}";
+        cardUI.cardArt.sprite = so.sprite;
+        return cardBase;
     }
 }
 

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -19,6 +18,6 @@ public class CardBase : MonoBehaviour {
     }
 
     public override string ToString() {
-        return $"{cardSO.name} / {cardSO.cost} with {effects.Count} effects";
+        return $"{cardSO.name} / {cardSO.cost} with {effects?.Count} effects";
     }
 }

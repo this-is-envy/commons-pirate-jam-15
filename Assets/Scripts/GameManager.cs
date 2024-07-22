@@ -35,11 +35,8 @@ public class GameManager {
             Card.AreaOfEffect,
         };
         foreach (var c in initialDeck) {
-            // TODO: converting to a cardbase here doesn't work in an obvious
-            // way bc it's a monobehavior and I'm not sure where we should be
-            // attaching it.
-
-            cardController.AddCardToHand(CardSO.GetCard(c),cardController);
+            cardController.DiscardPile.Add(
+                cardController.HydrateCard(CardSO.GetCard(c)));
         }
     }
 
