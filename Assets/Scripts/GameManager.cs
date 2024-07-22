@@ -17,6 +17,9 @@ public class GameManager {
     }
 
     public void StartGame(TurnActor player1) {
+        if (gameStarted) {
+            return;
+        }
 
         gameStarted = true;
         actor = player1;

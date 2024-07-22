@@ -79,7 +79,22 @@ public class CardController : MonoBehaviour {
         cardUI.descriptionTMP.text = so.description;
         cardUI.costTMP.text = $"{so.cost}";
         cardUI.cardArt.sprite = so.sprite;
+
+        cardUI.MouseEntered.AddListener(() => OnCardEnter(cardBase));
+        cardUI.MouseExited.AddListener(() => OnCardExit(cardBase));
+        cardUI.OnClick.AddListener(() => OnCardClick(cardBase));
         return cardBase;
+    }
+
+    private void OnCardEnter(CardBase card) {
+        Debug.Log("MouseOver: " + card.cardSO);
+    }
+    private void OnCardExit(CardBase card) {
+        Debug.Log("MouseExit: " + card.cardSO);
+    }
+
+    private void OnCardClick(CardBase card) {
+        Debug.Log("Clicked: " + card.cardSO);
     }
 }
 
