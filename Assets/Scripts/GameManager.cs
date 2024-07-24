@@ -1,18 +1,22 @@
 ﻿using System;
+using System.Collections;
 
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UIElements;
 
-public class GameManager {
+public class GameManager : MonoBehaviour {
+    [SerializeField] public CardController cardController;
+
+    UnityEvent gameStart;
+    UnityEvent gameOver;
+
     public TurnActor actor { get; private set; }
     public TurnPhase curPhase { get; private set; }
 
     public bool gameStarted { get; private set; } = false;
 
-    private CardController cardController;
-
-    public GameManager(CardController cc) {
-        Debug.Log("GameManager(" + cc + ")");
-        cardController = cc;
+    public void Start() {
         gameStarted = false;
     }
 
@@ -24,7 +28,6 @@ public class GameManager {
         gameStarted = true;
         actor = player1;
         curPhase = TurnPhase.StartTurn;
-
         // yes, we'll eventually want this in the editor but for now I'm going
         // to just stub it out here to get things moving along.
         Card[] initialDeck = new Card[]{
@@ -42,6 +45,8 @@ public class GameManager {
             cardController.DiscardPile.Add(
                 cardController.HydrateCard(CardSO.GetCard(c)));
         }
+
+        gameStart?.Invoke();
     }
 
     public void AdvanceTurn() {
@@ -50,14 +55,19 @@ public class GameManager {
         }
 
         var next = curPhase.Next();
-        Debug.Log($"{curPhase} -> {next}");
         curPhase = next;
 
         if (curPhase == TurnPhase.StartTurn) {
             var nextActor = actor.Next();
-            Debug.Log($"{actor} -> {nextActor}");
             actor = nextActor;
         }
+        if (HandlePhase()) {
+            Invoke("AdvanceTurn", .5f);
+        }
+    }
+
+    public bool HandlePhase() {
+        Debug.Log($"Processing {actor}:{curPhase}");
 
         if (actor == TurnActor.Player) {
             if (curPhase == TurnPhase.Draw) {
@@ -72,5 +82,7 @@ public class GameManager {
                 cardController.DiscardAll();
             }
         }
+
+        return actor != TurnActor.Player;
     }
 }

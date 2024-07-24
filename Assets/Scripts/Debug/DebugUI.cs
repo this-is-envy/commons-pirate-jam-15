@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using TMPro;
 
+using UnityEditor;
+
 using UnityEngine;
 
 public class DebugUI : MonoBehaviour {
@@ -11,19 +13,19 @@ public class DebugUI : MonoBehaviour {
     [SerializeField] public TMP_Text phaseTMP;
 
     public void Start() {
-        // TODO: We need to rehome this out of the DebugUI
-        gameManager = new GameManager(FindObjectOfType<CardController>());
+        gameManager = FindObjectOfType<GameManager>();
     }
 
     public void StartGame() {
         gameManager.StartGame(TurnActor.Player);
-        playerTMP.text = $"Turn: {gameManager.actor}";
-        phaseTMP.text = $"Phase: {gameManager.curPhase}";
     }
 
     public void Advance() {
         gameManager.AdvanceTurn();
-        playerTMP.text = $"Turn: {gameManager.actor}";
-        phaseTMP.text = $"Phase: {gameManager.curPhase}";
+    }
+
+    public void Update() {
+        playerTMP.text = $"Turn: {gameManager?.actor}";
+        phaseTMP.text = $"Phase: {gameManager?.curPhase}";
     }
 }

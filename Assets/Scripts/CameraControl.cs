@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class CameraControl : MonoBehaviour {
     public Func<Vector3> GetDirection;
-    [SerializeField] public Camera camera;
+    [SerializeField] public new Camera camera;
     [SerializeField] public float MoveSpeed = 1f;
     [SerializeField] public float BorderWidthPct = .05f;
     [SerializeField] SpriteRenderer ClampingObject;
@@ -50,7 +50,6 @@ public class CameraControl : MonoBehaviour {
         return dir.normalized;
     }
 
-    // Update is called once per frame
     void Update() {
         var direction = GetDirection();
         if (direction == Vector3.zero) {
