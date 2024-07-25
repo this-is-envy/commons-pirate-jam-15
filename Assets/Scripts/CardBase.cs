@@ -12,9 +12,11 @@ public class CardBase : MonoBehaviour {
     }
 
     public void PlayCard() {
+        effects = cardSO.effects;
         foreach (EffectBase effect in effects) {
-            // do the effect
-        }
+            
+            effect.ActivateEffect();
+        }   
     }
 
     public override string ToString() {

@@ -14,6 +14,25 @@ public class CardController : MonoBehaviour {
     public List<CardBase> DiscardPile;
     public GameObject cardPrefab;
 
+    public CardBase currentCard;
+    public bool hasCardSelected = false;
+
+    private void Update()
+    {
+        if (hasCardSelected)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Debug.Log("Card Position: " + mousePosition);
+                currentCard.PlayCard();
+                Destroy(currentCard.gameObject);
+                currentCard = null;
+                this.hasCardSelected = false;
+            }
+        }
+    }
+
     public void Awake() {
         rnd = new System.Random();
         DrawDeck = new List<CardBase>();
@@ -101,14 +120,21 @@ public class CardController : MonoBehaviour {
         }
 
         if (gameManager.playerResourcePool <= card.cardSO.cost) {
-            Debug.Log("Palyer doesn't have required resource pool to play card");
+            Debug.Log("Player doesn't have required resource pool to play card");
             return;
         }
 
+
+        //Lets do it with card hovering like in hearthstone
+
+        currentCard = card;
+        this.hasCardSelected = true;
+
         // TODO: modifier cards will be a multi-step play process
-        gameManager.playerResourcePool -= card.cardSO.cost;
+        //gameManager.playerResourcePool -= card.cardSO.cost;
         // TODO: play card
     }
+
 }
 
 

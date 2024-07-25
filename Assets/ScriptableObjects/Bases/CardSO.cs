@@ -14,6 +14,7 @@ public class CardSO : ScriptableObject {
     public Sprite sprite;
     //todo: Add effects
     public EffectType effectType;
+    public List<EffectBase> effects;
 
     public override string ToString() {
         return $"{cardName} ({cost}): {description}";
