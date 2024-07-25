@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CardController : MonoBehaviour {
+    [SerializeField] private GameManager gameManager;
     private System.Random rnd;
     public int maxCards = 5;
 
@@ -95,6 +96,18 @@ public class CardController : MonoBehaviour {
 
     private void OnCardClick(CardBase card) {
         Debug.Log("Clicked: " + card.cardSO);
+        if (!(gameManager.actor == TurnActor.Player && gameManager.curPhase == TurnPhase.Play)) {
+            return;
+        }
+
+        if (gameManager.playerResourcePool <= card.cardSO.cost) {
+            Debug.Log("Palyer doesn't have required resource pool to play card");
+            return;
+        }
+
+        // TODO: modifier cards will be a multi-step play process
+        gameManager.playerResourcePool -= card.cardSO.cost;
+        // TODO: play card
     }
 }
 

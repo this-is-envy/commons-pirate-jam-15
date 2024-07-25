@@ -4,8 +4,8 @@ static class EnumExtensions {
 
     public static TurnPhase Next(this TurnPhase self) {
         switch (self) {
-            case TurnPhase.StartTurn: return TurnPhase.ResolveMovement;
-            case TurnPhase.ResolveMovement: return TurnPhase.Draw;
+            case TurnPhase.StartTurn: return TurnPhase.WorldTick;
+            case TurnPhase.WorldTick: return TurnPhase.Draw;
             case TurnPhase.Draw: return TurnPhase.Play;
             case TurnPhase.Play: return TurnPhase.Discard;
             case TurnPhase.Discard: return TurnPhase.EndTurn;

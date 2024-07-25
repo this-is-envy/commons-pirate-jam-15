@@ -10,7 +10,7 @@ public enum TurnActor {
 
 public enum TurnPhase {
     StartTurn,
-    ResolveMovement,
+    WorldTick,
     Draw,
     Play,
     Discard,

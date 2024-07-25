@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 
 using UnityEngine;
 using UnityEngine.Events;
@@ -7,6 +8,8 @@ using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour {
     [SerializeField] public CardController cardController;
+
+    public int playerResourcePool = 0;
 
     UnityEvent gameStart;
     UnityEvent gameOver;
@@ -69,20 +72,51 @@ public class GameManager : MonoBehaviour {
     public bool HandlePhase() {
         Debug.Log($"Processing {actor}:{curPhase}");
 
-        if (actor == TurnActor.Player) {
-            if (curPhase == TurnPhase.Draw) {
-                cardController.DrawCards(5);
-                Debug.Log("Hand:");
-                foreach (var c in cardController.Hand) {
-                    Debug.Log("  " + c);
-                }
-            }
+        switch (actor) {
+            case TurnActor.Player:
+                return PlayerTurn(curPhase);
+            case TurnActor.Neutral:
+                break;
+            case TurnActor.Opponent:
+                break;
+        }
 
-            if (curPhase == TurnPhase.Discard) {
-                cardController.DiscardAll();
+        return true;
+    }
+
+    private bool PlayerTurn(TurnPhase phase) {
+        if (curPhase == TurnPhase.Draw) {
+            cardController.DrawCards(5);
+            Debug.Log("Hand:");
+            foreach (var c in cardController.Hand) {
+                Debug.Log("  " + c);
             }
         }
 
-        return actor != TurnActor.Player;
+        if (curPhase == TurnPhase.Discard) {
+            cardController.DiscardAll();
+        }
+
+        if (curPhase == TurnPhase.WorldTick) {
+            // TODO: this is *only* some dumb first pass shit to start
+            // sketching things out
+            // at the beginning of the player's turn their resource pool is at zero
+            playerResourcePool = 0;
+            // grab all the placeables
+            var objs = GameObject.FindGameObjectsWithTag("Placeables");
+            foreach (var obj in objs) {
+                // modifiy the player's resource pool by whatever the placeable tells us
+                playerResourcePool += obj.GetComponent<Placeable>().WorldTick(TurnActor.Player);
+            }
+        }
+
+        // nothing else to do, let the game auto-advance in some cases
+        switch (phase) {
+            case TurnPhase.Play:
+                return false;
+            default:
+                return true;
+        }
+
     }
 }
