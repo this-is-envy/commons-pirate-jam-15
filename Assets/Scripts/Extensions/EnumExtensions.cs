@@ -1,7 +1,7 @@
 ﻿using System;
 
 static class EnumExtensions {
-
+    #region Turn Tracking
     public static TurnPhase Next(this TurnPhase self) {
         switch (self) {
             case TurnPhase.StartTurn: return TurnPhase.WorldTick;
@@ -22,7 +22,9 @@ static class EnumExtensions {
             default: throw new ArgumentOutOfRangeException("Unhandled turn actor: " + self);
         }
     }
+    #endregion
 
+    #region Card SO
     private static string effectAssetPath(string name) {
         return $"Assets/ScriptableObjects/Cards/Effects/{name}.asset";
     }
@@ -56,4 +58,19 @@ static class EnumExtensions {
                 throw new ArgumentOutOfRangeException("Unknown card type requested: " + card);
         }
     }
+    #endregion
+
+    #region Card playing
+    public static bool IsPlayable(this HandMode mode) {
+        return
+            mode == HandMode.PlayOnly ||
+            mode == HandMode.PlayOrModify;
+    }
+
+    public static bool IsStackable(this HandMode mode) {
+        return
+            mode == HandMode.PlayOrModify ||
+            mode == HandMode.ModifiyOnly;
+    }
+    #endregion
 }

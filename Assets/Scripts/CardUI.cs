@@ -1,7 +1,5 @@
 ﻿using TMPro;
 
-using Unity;
-
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -14,16 +12,16 @@ public class CardUI : MonoBehaviour {
 
     public UnityEvent MouseEntered;
     public void InvokeMouseEntered() {
-        MouseEntered.Invoke();
+        MouseEntered?.Invoke();
     }
 
     public UnityEvent MouseExited;
     public void InvokeMouseExited() {
-        MouseExited.Invoke();
+        MouseExited?.Invoke();
     }
 
     public UnityEvent OnClick;
     public void InvokeOnClick() {
-        OnClick.Invoke();
+        OnClick?.Invoke();
     }
 }

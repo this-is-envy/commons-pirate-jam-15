@@ -9,7 +9,7 @@ using UnityEngine;
 public class EffectBase : MonoBehaviour
 {
 
-    virtual public void ActivateEffect()
+    virtual public void ActivateEffect(CardBase context, Vector3 worldPos)
     {
 
     }
@@ -20,15 +20,15 @@ public class EffectBase : MonoBehaviour
         Collider[] hitColliders = Physics.OverlapSphere(position, area);
     }
 
-    virtual public void SummonEntity(GameObject entity, Vector3 position)
+    virtual public GameObject SummonEntity(GameObject entity, Vector3 position)
     {
         position.z = 0; // Set the Z coordinate to 0
-        Object.Instantiate(entity, position, Quaternion.identity);
+        return Object.Instantiate(entity, position, Quaternion.identity);
     }
 
-    virtual public void CreateTerrain(GameObject terrain, float area, Vector3 position)
+    virtual public GameObject CreateTerrain(GameObject terrain, float area, Vector3 position)
     {
         position.z = 0; // Set the Z coordinate to 0
-        Instantiate(terrain, position, Quaternion.identity);
+        return Object.Instantiate(terrain, position, Quaternion.identity);
     }
 }

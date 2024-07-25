@@ -17,4 +17,6 @@ MonoBehaviour:
     for damage.
   cost: 2
   sprite: {fileID: 0}
+  usageMode: 2
   effectType: 3
+  effects: []

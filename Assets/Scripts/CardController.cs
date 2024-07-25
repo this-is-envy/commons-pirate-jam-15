@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 using UnityEngine;
 
@@ -9,35 +10,55 @@ public class CardController : MonoBehaviour {
     private System.Random rnd;
     public int maxCards = 5;
 
+    private HandMode handMode;
+
     public List<CardBase> DrawDeck;
     public List<CardBase> Hand;
     public List<CardBase> DiscardPile;
     public GameObject cardPrefab;
 
-    public CardBase currentCard;
-    public bool hasCardSelected = false;
-
-    private void Update()
-    {
-        if (hasCardSelected)
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                Debug.Log("Card Position: " + mousePosition);
-                currentCard.PlayCard();
-                Destroy(currentCard.gameObject);
-                currentCard = null;
-                this.hasCardSelected = false;
+    public List<CardBase> cardStack;
+    public CardBase currentCard {
+        get {
+            if (cardStack.Count == 0) {
+                return null;
             }
+            return cardStack.Last();
+        }
+    }
+    public bool hasCardSelected {
+        get {
+            return cardStack.Count > 0;
+        }
+    }
+    public int stackCost {
+        get {
+            return cardStack.Select(c => c.cardSO.cost).Sum();
         }
     }
 
     public void Awake() {
-        rnd = new System.Random();
+        cardStack = new List<CardBase>();
+        handMode = HandMode.Display;
+        rnd = new System.Random((int)DateTimeOffset.UtcNow.ToUnixTimeMilliseconds());
         DrawDeck = new List<CardBase>();
         Hand = new List<CardBase>();
         DiscardPile = new List<CardBase>();
+    }
+
+    private void Update() {
+        if (hasCardSelected) {
+            if (handMode.IsPlayable() && Input.GetMouseButtonDown(0)) {
+                Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                PlayStack(mousePosition);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Escape)) {
+                // clear the working stack
+                cardStack.Clear();
+                handMode = HandMode.Display;
+            }
+        }
     }
 
     public void Shuffle() {
@@ -72,11 +93,21 @@ public class CardController : MonoBehaviour {
         }
     }
 
-    public void UseCard(CardBase card) {
-        card.PlayCard();
-        Hand.Remove(card);
-        card.gameObject.SetActive(false);
-        DiscardPile.Add(card);
+    public void PlayStack(Vector3 worldPosition) {
+        gameManager.playerResourcePool -= stackCost;
+
+        // have to mark the cards as discarded before resolving
+        // because that unwinds the card stack
+        foreach (var c in cardStack) {
+            Hand.Remove(c);
+            DiscardPile.Add(c);
+            c.gameObject.SetActive(false);
+        }
+
+        var start = cardStack.First();
+        cardStack.RemoveAt(0);
+        start.PlayCard(worldPosition, cardStack);
+        cardStack.Clear();
     }
 
     public void DiscardAll() {
@@ -106,12 +137,9 @@ public class CardController : MonoBehaviour {
         return cardBase;
     }
 
-    private void OnCardEnter(CardBase card) {
-        Debug.Log("MouseOver: " + card.cardSO);
-    }
-    private void OnCardExit(CardBase card) {
-        Debug.Log("MouseExit: " + card.cardSO);
-    }
+    private void OnCardEnter(CardBase card) { }
+
+    private void OnCardExit(CardBase card) { }
 
     private void OnCardClick(CardBase card) {
         Debug.Log("Clicked: " + card.cardSO);
@@ -119,20 +147,16 @@ public class CardController : MonoBehaviour {
             return;
         }
 
-        if (gameManager.playerResourcePool <= card.cardSO.cost) {
-            Debug.Log("Player doesn't have required resource pool to play card");
+        var reqCost = stackCost + card.cardSO.cost;
+        if (gameManager.playerResourcePool < reqCost) {
+            Debug.Log($"Player doesn't have required resource pool to play card, needs {reqCost}");
             return;
         }
 
 
         //Lets do it with card hovering like in hearthstone
-
-        currentCard = card;
-        this.hasCardSelected = true;
-
-        // TODO: modifier cards will be a multi-step play process
-        //gameManager.playerResourcePool -= card.cardSO.cost;
-        // TODO: play card
+        cardStack.Add(card);
+        handMode = card.cardSO.usageMode;
     }
 
 }

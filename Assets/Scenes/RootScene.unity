@@ -424,7 +424,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   details: {fileID: 11400000, guid: c964a9ce169d68f47bd96497493dc618, type: 2}
-  owner: 2
+  owner: 0
 --- !u!65 &384220464
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -664,7 +664,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   details: {fileID: 11400000, guid: c964a9ce169d68f47bd96497493dc618, type: 2}
-  owner: 1
+  owner: 0
 --- !u!65 &473228958
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1247,7 +1247,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   details: {fileID: 11400000, guid: c964a9ce169d68f47bd96497493dc618, type: 2}
-  owner: 1
+  owner: 0
 --- !u!65 &708446066
 BoxCollider:
   m_ObjectHideFlags: 0

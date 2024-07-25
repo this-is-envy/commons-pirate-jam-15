@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3023851974672419534}
   - component: {fileID: 8177060210423470877}
   m_Layer: 0
-  m_Name: Melee1
+  m_Name: UnitPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,6 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec5b82bd3b876e848b5bf52f13cbe7f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Health: 0
+  MaxHealth: 0
+  AttackDamage: 0
+  movementSpeed: 0
 --- !u!212 &8177060210423470877
 SpriteRenderer:
   m_ObjectHideFlags: 0

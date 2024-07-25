@@ -12,9 +12,11 @@ public class CardSO : ScriptableObject {
     public string description;
     public int cost;
     public Sprite sprite;
+    public HandMode usageMode = HandMode.PlayOnly;
     //todo: Add effects
     public EffectType effectType;
     public List<EffectBase> effects;
+    public SummonDataSO summonData;
 
     public override string ToString() {
         return $"{cardName} ({cost}): {description}";

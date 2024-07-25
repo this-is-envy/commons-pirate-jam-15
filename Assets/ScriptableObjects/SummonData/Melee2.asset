@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9e000b2fa3d6804b997de3c7ef1f4cc, type: 3}
+  m_Name: Melee2
+  m_EditorClassIdentifier: 
+  maxHealth: 120
+  meleeDamage: 15
+  rangedDamage: 0
+  range: 0
+  defense: 2
+  speed: 1
+  token: {fileID: -898258173, guid: 9df4d61d1c2a8fa4983229b307817eae, type: 3}
+  unitPrefab: {fileID: 4199004353708391485, guid: 3006728d6436fd6488c7b0c588fc6f69, type: 3}

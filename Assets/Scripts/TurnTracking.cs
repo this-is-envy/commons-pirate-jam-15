@@ -1,8 +1,4 @@
-﻿using System;
-
-using UnityEditor.UI;
-
-public enum TurnActor {
+﻿public enum TurnActor {
     Player,
     Neutral,
     Opponent,

@@ -1,22 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
+using UnityEngine.UIElements;
 
-public class BasicSummon : EffectBase
-{
-    public GameObject summonPrefab;
-    private Vector3 summonPosition;
-
-    public void SetTransformPosition(Vector3 position)
-    {
-        summonPosition = position;
+public class BasicSummon : EffectBase {
+    public override void ActivateEffect(CardBase context, Vector3 worldPos) {
+        var summonPosition = worldPos;
         summonPosition.z = 0;
-    }
 
-    public override void ActivateEffect()
-    {
-        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        SetTransformPosition(mousePosition);
-        SummonEntity(summonPrefab, summonPosition);
+        var data = context.cardSO.summonData;
+
+        var prefab = data.unitPrefab;
+        var summoned = SummonEntity(prefab, summonPosition);
+        var unit = summoned.GetComponent<Unit>();
+        unit.InitFromSO(data);
+
+        var renderer = summoned.GetComponent<SpriteRenderer>();
+        renderer.sprite = data.token;
+        unit.transform.localScale = new Vector3(data.tokenScale, data.tokenScale, 1);
     }
 }

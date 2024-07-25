@@ -16,4 +16,6 @@ MonoBehaviour:
   description: "\t"
   cost: 3
   sprite: {fileID: 0}
+  usageMode: 2
   effectType: 3
+  effects: []

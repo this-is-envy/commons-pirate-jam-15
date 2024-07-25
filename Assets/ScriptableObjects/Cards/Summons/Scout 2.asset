@@ -16,6 +16,8 @@ MonoBehaviour:
   description: 
   cost: 2
   sprite: {fileID: 0}
+  usageMode: 1
   effectType: 2
   effects:
   - {fileID: 4066108364981281844, guid: ab2342738adc10647bb8cf78d3171864, type: 3}
+  summonData: {fileID: 0}
